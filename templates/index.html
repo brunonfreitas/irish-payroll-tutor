@@ -8,6 +8,7 @@
 
   <link rel="stylesheet" href="/static/style.css" />
 
+  <!-- OneSignal -->
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <script>
     window.OneSignalDeferred = window.OneSignalDeferred || [];
@@ -30,19 +31,40 @@
     <h1>Irish Payroll Tutor 🇮🇪</h1>
     <p>Seu app de estudo diário</p>
 
+    <!-- Morning -->
     <div class="card">
-      <h2>08:00 Morning Tip</h2>
-      <p>Ex: PAYE significa Pay As You Earn.</p>
+      <h2>06:30 Morning Tip</h2>
+      <p>
+        {% if chapters %}
+          {{ chapters[0][:120] }}...
+        {% else %}
+          No study content yet.
+        {% endif %}
+      </p>
     </div>
 
+    <!-- Midday -->
     <div class="card">
-      <h2>13:00 Midday Quiz</h2>
-      <p>Quanto é o USC básico?</p>
+      <h2>13:20 Midday Quiz</h2>
+      <p>
+        {% if chapters %}
+          Question coming from your study content...
+        {% else %}
+          Add chapters to generate quizzes.
+        {% endif %}
+      </p>
     </div>
 
+    <!-- Evening -->
     <div class="card">
-      <h2>18:30 Evening Review</h2>
-      <p>Revise PRSI e PAYE.</p>
+      <h2>17:30 Evening Review</h2>
+      <p>
+        {% if chapters %}
+          Review based on what you studied today.
+        {% else %}
+          Start studying to see your review here.
+        {% endif %}
+      </p>
     </div>
 
   </main>
