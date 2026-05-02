@@ -7,16 +7,23 @@
   <title>Irish Payroll Tutor</title>
 
   <link rel="stylesheet" href="/static/style.css" />
-</head>
-<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-<script>
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  OneSignalDeferred.push(async function(OneSignal) {
-    await OneSignal.init({
-      appId: "10b8a735-f31d-446a-8af0-bbb1fdd2b408",
+
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script>
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function(OneSignal) {
+      await OneSignal.init({
+        appId: "10b8a735-f31d-446a-8af0-bbb1fdd2b408",
+        promptOptions: {
+          slidedown: {
+            enabled: true
+          }
+        }
+      });
     });
-  });
-</script>
+  </script>
+</head>
+
 <body>
   <main class="app">
 
