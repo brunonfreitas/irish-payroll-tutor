@@ -8,7 +8,6 @@
 
   <link rel="stylesheet" href="/static/style.css" />
 
-  <!-- OneSignal -->
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <script>
     window.OneSignalDeferred = window.OneSignalDeferred || [];
@@ -31,7 +30,7 @@
     <h1>Irish Payroll Tutor 🇮🇪</h1>
     <p>Seu app de estudo diário</p>
 
-    <div class="card">
+    <div class="card" id="morning">
       <h2>06:30 Morning Tip</h2>
       <p>
         {% if chapters %}
@@ -42,12 +41,14 @@
       </p>
     </div>
 
-    <div class="card">
+    <div class="card" id="quiz">
       <h2>13:20 Midday Quiz</h2>
 
       {% if quizzes %}
         <form id="quizForm">
           {% for quiz in quizzes %}
+            {% set question_index = loop.index0 %}
+
             <div class="quiz-question">
               <p><strong>{{ loop.index }}. {{ quiz.question }}</strong></p>
 
@@ -55,11 +56,11 @@
                 <label class="option">
                   <input 
                     type="radio" 
-                    name="q{{ loop.index0 }}" 
+                    name="q{{ question_index }}" 
                     value="{{ option }}"
                     data-answer="{{ quiz.answer }}"
                   >
-                  {{ option }}
+                  <span>{{ option }}</span>
                 </label>
               {% endfor %}
             </div>
@@ -74,7 +75,7 @@
       {% endif %}
     </div>
 
-    <div class="card">
+    <div class="card" id="review">
       <h2>17:30 Evening Review</h2>
       <p>
         {% if chapters %}
@@ -85,7 +86,7 @@
       </p>
     </div>
 
-    <div class="card">
+    <div class="card" id="progress">
       <h2>Study Progress</h2>
 
       {% for area, data in progress.items() %}

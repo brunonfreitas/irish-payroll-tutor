@@ -147,3 +147,29 @@ p {
   color: #475569;
   font-weight: 700;
 }
+
+.card {
+  scroll-margin-top: 20px;
+}
+
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 8px;
+  border-radius: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.option input {
+  margin-top: 3px;
+}
+
+.option span {
+  display: block;
+}
