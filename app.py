@@ -31,12 +31,7 @@ def load_chapters():
             path = os.path.join(STUDY_FOLDER, file)
 
             with open(path, "r", encoding="utf-8") as f:
-                content = f.read()
-
-            chapters.append({
-                "filename": file,
-                "content": content
-            })
+                chapters.append(f.read())
 
     return chapters
 
@@ -47,7 +42,7 @@ def calculate_progress(chapters):
         count = 0
 
         for chapter in chapters:
-            if area.lower() in chapter["content"].lower():
+            if area.lower() in chapter.lower():
                 count += 1
 
         percentage = min(count * 25, 100)
