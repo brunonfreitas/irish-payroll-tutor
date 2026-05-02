@@ -27,20 +27,26 @@
 <body>
   <main class="app">
 
-    <h1>Irish Payroll Tutor 🇮🇪</h1>
-    <p>Seu app de estudo diário</p>
+    <header class="app-header">
+      <h1>Irish Payroll Tutor 🇮🇪</h1>
+      <p>Daily payroll memory training</p>
+    </header>
 
-    <div class="card" id="morning">
+    <section class="card routine-card" id="morning">
+      <div class="card-label">Morning focus</div>
       <h2>06:30 Morning Tip</h2>
-      {% if morning_tip %}
-        <p>{{ morning_tip }}</p>
-      {% else %}
-        <p>Add Morning Tips inside your chapter .md file.</p>
-      {% endif %}
-    </div>
 
-    <div class="card" id="quiz">
+      {% if morning_tip %}
+        <p class="study-text">{{ morning_tip }}</p>
+      {% else %}
+        <p class="study-text muted">Add Morning Tips inside your chapter .md file.</p>
+      {% endif %}
+    </section>
+
+    <section class="card routine-card" id="quiz">
+      <div class="card-label">Midday practice</div>
       <h2>13:20 Midday Quiz</h2>
+      <p class="helper-text">Answer 5 questions. Check your score at the end.</p>
 
       {% if quizzes %}
         <form id="quizForm">
@@ -48,7 +54,9 @@
             {% set question_index = loop.index0 %}
 
             <div class="quiz-question">
-              <p><strong>{{ loop.index }}. {{ quiz.question }}</strong></p>
+              <p class="question-text">
+                <strong>{{ loop.index }}. {{ quiz.question }}</strong>
+              </p>
 
               {% for option in quiz.options %}
                 <label class="option">
@@ -69,18 +77,20 @@
 
         <div id="quizResult" class="result"></div>
       {% else %}
-        <p>No quiz found in your .md file.</p>
+        <p class="study-text muted">No quiz found in your .md file.</p>
       {% endif %}
-    </div>
+    </section>
 
-    <div class="card" id="review">
+    <section class="card routine-card" id="review">
+      <div class="card-label">Evening memory reset</div>
       <h2>17:30 Evening Review</h2>
+
       {% if evening_review %}
-        <p>{{ evening_review }}</p>
+        <p class="study-text">{{ evening_review }}</p>
       {% else %}
-        <p>Add Evening Reviews inside your chapter .md file.</p>
+        <p class="study-text muted">Add Evening Reviews inside your chapter .md file.</p>
       {% endif %}
-    </div>
+    </section>
 
   </main>
 

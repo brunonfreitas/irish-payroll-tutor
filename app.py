@@ -5,6 +5,7 @@ import random
 app = Flask(__name__)
 
 STUDY_FOLDER = "study_notes"
+QUIZ_LIMIT = 5
 
 def load_chapters():
     chapters = []
@@ -87,10 +88,13 @@ def extract_quizzes(chapters):
         if current:
             quizzes.append(current)
 
-    return [
+    valid_quizzes = [
         quiz for quiz in quizzes
         if len(quiz["options"]) == 4 and quiz["correct"] in ["A", "B", "C", "D"]
     ]
+
+    random.shuffle(valid_quizzes)
+    return valid_quizzes[:QUIZ_LIMIT]
 
 @app.route("/")
 def home():
@@ -100,10 +104,13 @@ def home():
     evening_reviews = extract_section_items(chapters, "## Evening Reviews")
     quizzes = extract_quizzes(chapters)
 
+    morning_tip = random.choice(morning_tips) if morning_tips else None
+    evening_review = random.choice(evening_reviews) if evening_reviews else None
+
     return render_template(
         "index.html",
-        morning_tip=random.choice(morning_tips) if morning_tips else None,
-        evening_review=random.choice(evening_reviews) if evening_reviews else None,
+        morning_tip=morning_tip,
+        evening_review=evening_review,
         quizzes=quizzes
     )
 
