@@ -31,7 +31,6 @@
     <h1>Irish Payroll Tutor 🇮🇪</h1>
     <p>Seu app de estudo diário</p>
 
-    <!-- Morning -->
     <div class="card">
       <h2>06:30 Morning Tip</h2>
       <p>
@@ -43,19 +42,20 @@
       </p>
     </div>
 
-    <!-- Midday -->
     <div class="card">
       <h2>13:20 Midday Quiz</h2>
-      <p>
-        {% if chapters %}
-          Question coming from your study content...
-        {% else %}
-          Add chapters to generate quizzes.
-        {% endif %}
-      </p>
+
+      {% if quiz %}
+        <p><strong>Question:</strong> {{ quiz.question }}</p>
+        <details>
+          <summary>Show answer</summary>
+          <p><strong>Answer:</strong> {{ quiz.answer }}</p>
+        </details>
+      {% else %}
+        <p>Add Q: and A: questions inside your chapter files.</p>
+      {% endif %}
     </div>
 
-    <!-- Evening -->
     <div class="card">
       <h2>17:30 Evening Review</h2>
       <p>
@@ -67,7 +67,6 @@
       </p>
     </div>
 
-    <!-- Study Progress automático -->
     <div class="card">
       <h2>Study Progress</h2>
 
@@ -80,7 +79,6 @@
           <small>{{ data.percentage }}%</small>
         </div>
       {% endfor %}
-
     </div>
 
   </main>

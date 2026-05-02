@@ -1,23 +1,16 @@
 from flask import Flask, render_template
 import os
+import random
 
 app = Flask(__name__)
 
 STUDY_FOLDER = "study_notes"
 
 PAYROLL_AREAS = [
-    "PAYE",
-    "PRSI",
-    "USC",
-    "Revenue",
-    "Payroll Processing",
-    "Deadlines",
-    "Reporting",
-    "Tax Credits",
-    "BIK",
-    "Pension",
-    "Emergency Tax",
-    "Gross to Net"
+    "PAYE", "PRSI", "USC", "Revenue",
+    "Payroll Processing", "Deadlines",
+    "Reporting", "Tax Credits", "BIK",
+    "Pension", "Emergency Tax", "Gross to Net"
 ]
 
 def load_chapters():
@@ -29,11 +22,33 @@ def load_chapters():
     for file in os.listdir(STUDY_FOLDER):
         if file.endswith(".md"):
             path = os.path.join(STUDY_FOLDER, file)
-
             with open(path, "r", encoding="utf-8") as f:
                 chapters.append(f.read())
 
     return chapters
+
+def extract_quizzes(chapters):
+    quizzes = []
+
+    for chapter in chapters:
+        lines = chapter.splitlines()
+        question = None
+
+        for line in lines:
+            line = line.strip()
+
+            if line.startswith("Q:"):
+                question = line.replace("Q:", "").strip()
+
+            elif line.startswith("A:") and question:
+                answer = line.replace("A:", "").strip()
+                quizzes.append({
+                    "question": question,
+                    "answer": answer
+                })
+                question = None
+
+    return quizzes
 
 def calculate_progress(chapters):
     progress = {}
@@ -67,11 +82,15 @@ def calculate_progress(chapters):
 def home():
     chapters = load_chapters()
     progress = calculate_progress(chapters)
+    quizzes = extract_quizzes(chapters)
+
+    quiz = random.choice(quizzes) if quizzes else None
 
     return render_template(
         "index.html",
         chapters=chapters,
-        progress=progress
+        progress=progress,
+        quiz=quiz
     )
 
 if __name__ == "__main__":
