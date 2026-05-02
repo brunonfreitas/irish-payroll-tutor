@@ -1,32 +1,52 @@
-.quiz-question {
-  margin-top: 18px;
-  padding-top: 14px;
-  border-top: 1px solid #e2e8f0;
-}
+# Chapter 01 - PAYE System
 
-.option {
-  display: block;
-  padding: 10px 12px;
-  margin-top: 8px;
-  border-radius: 12px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  font-size: 14px;
-}
+## Areas
+PAYE, Revenue, Tax Credits, Cut-Off Point
 
-.option.correct {
-  background: #dcfce7;
-  border-color: #22c55e;
-}
+## Key Points
+- PAYE means Pay As You Earn
+- Tax is deducted at source before net pay
+- Revenue is the Irish tax authority
+- Tax credits reduce the amount of tax payable
+- Standard rate cut-off point determines how income is taxed
 
-.option.wrong {
-  background: #fee2e2;
-  border-color: #ef4444;
-}
+## Morning Tips
+- PAYE is deducted before the employee receives net pay
+- Tax credits directly reduce tax owed, not income
+- Revenue controls payroll tax in Ireland
 
-.result {
-  margin-top: 18px;
-  padding: 14px;
-  border-radius: 16px;
-  background: #f1f5f9;
-}
+## Quiz Questions
+
+Q: What does PAYE stand for?
+A: Pay As You Earn
+B: Pay After Year End
+C: Payroll Annual Yield Estimate
+D: Personal Allowance Year Entry
+Correct: A
+
+Q: What do tax credits do?
+A: They reduce the amount of tax payable
+B: They increase gross salary
+C: They replace PRSI
+D: They apply only to employers
+Correct: A
+
+Q: What does the standard rate cut-off point affect?
+A: How much income is taxed at the standard rate
+B: Total PRSI contributions
+C: Employer tax obligations
+D: Net salary calculation only
+Correct: A
+
+Q: Who is Revenue?
+A: Irish tax authority
+B: Payroll software provider
+C: Employer regulator only
+D: Banking institution
+Correct: A
+
+## Evening Reviews
+- Review how PAYE is deducted from gross salary
+- Understand the role of Revenue in payroll
+- Revise how tax credits impact final tax
+- Revisit standard rate vs higher rate taxation
