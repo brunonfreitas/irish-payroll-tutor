@@ -36,7 +36,7 @@
       <h2>06:30 Morning Tip</h2>
       <p>
         {% if chapters %}
-          {{ chapters[0][:120] }}...
+          {{ chapters[0].replace('#','').replace('##','')[:120] }}...
         {% else %}
           No study content yet.
         {% endif %}
@@ -67,7 +67,7 @@
       </p>
     </div>
 
-    <!-- 🔥 AUTOMATIC STUDY PROGRESS -->
+    <!-- Study Progress automático -->
     <div class="card">
       <h2>Study Progress</h2>
 
