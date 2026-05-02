@@ -48,6 +48,20 @@ def extract_quizzes(chapters):
                 })
                 question = None
 
+    all_answers = [q["answer"] for q in quizzes]
+
+    for quiz in quizzes:
+        wrong_options = [a for a in all_answers if a != quiz["answer"]]
+        random.shuffle(wrong_options)
+
+        options = [quiz["answer"]] + wrong_options[:3]
+
+        while len(options) < 4:
+            options.append("Not applicable")
+
+        random.shuffle(options)
+        quiz["options"] = options
+
     return quizzes
 
 def calculate_progress(chapters):
@@ -84,13 +98,11 @@ def home():
     progress = calculate_progress(chapters)
     quizzes = extract_quizzes(chapters)
 
-    quiz = random.choice(quizzes) if quizzes else None
-
     return render_template(
         "index.html",
         chapters=chapters,
         progress=progress,
-        quiz=quiz
+        quizzes=quizzes
     )
 
 if __name__ == "__main__":
