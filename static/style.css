@@ -173,3 +173,50 @@ p {
 .option span {
   display: block;
 }
+
+.quiz-question {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  border-radius: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.option input {
+  margin-top: 3px;
+}
+
+.option span {
+  display: block;
+}
+
+.option.correct {
+  background: #dbeafe;
+  border-color: #2563eb;
+  color: #0f172a;
+}
+
+.option.wrong {
+  background: #fee2e2;
+  border-color: #ef4444;
+  color: #7f1d1d;
+}
+
+.result {
+  margin-top: 18px;
+  padding: 14px;
+  border-radius: 16px;
+  background: #f1f5f9;
+}

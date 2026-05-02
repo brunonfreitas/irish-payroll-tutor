@@ -54,13 +54,13 @@
 
               {% for option in quiz.options %}
                 <label class="option">
-                  <input 
-                    type="radio" 
-                    name="q{{ question_index }}" 
-                    value="{{ option }}"
-                    data-answer="{{ quiz.answer }}"
+                  <input
+                    type="radio"
+                    name="q{{ question_index }}"
+                    value="{{ option.letter }}"
+                    data-correct="{{ quiz.correct }}"
                   >
-                  <span>{{ option }}</span>
+                  <span><strong>{{ option.letter }}.</strong> {{ option.text }}</span>
                 </label>
               {% endfor %}
             </div>
@@ -71,7 +71,7 @@
 
         <div id="quizResult" class="result"></div>
       {% else %}
-        <p>Add Q: and A: questions inside your chapter files.</p>
+        <p>Add multiple-choice questions inside your chapter files.</p>
       {% endif %}
     </div>
 
@@ -106,42 +106,46 @@
     function checkQuiz() {
       const questions = document.querySelectorAll(".quiz-question");
       let correct = 0;
+      let answered = 0;
       let total = questions.length;
 
       questions.forEach((question) => {
         const selected = question.querySelector("input[type='radio']:checked");
-        const allOptions = question.querySelectorAll("label");
+        const labels = question.querySelectorAll("label.option");
 
-        allOptions.forEach(label => {
+        labels.forEach(label => {
           label.classList.remove("correct", "wrong");
         });
 
-        if (selected) {
-          const correctAnswer = selected.dataset.answer;
+        labels.forEach(label => {
+          const input = label.querySelector("input");
+          const correctLetter = input.dataset.correct;
 
-          if (selected.value === correctAnswer) {
+          if (input.value === correctLetter) {
+            label.classList.add("correct");
+          }
+        });
+
+        if (selected) {
+          answered++;
+
+          if (selected.value === selected.dataset.correct) {
             correct++;
-            selected.parentElement.classList.add("correct");
           } else {
             selected.parentElement.classList.add("wrong");
-
-            allOptions.forEach(label => {
-              const input = label.querySelector("input");
-              if (input.value === correctAnswer) {
-                label.classList.add("correct");
-              }
-            });
           }
         }
       });
 
-      const wrong = total - correct;
-      const percent = Math.round((correct / total) * 100);
+      const wrong = answered - correct;
+      const unanswered = total - answered;
+      const percent = total > 0 ? Math.round((correct / total) * 100) : 0;
 
       document.getElementById("quizResult").innerHTML = `
         <h3>Quiz Result</h3>
         <p><strong>Correct:</strong> ${correct}</p>
         <p><strong>Wrong:</strong> ${wrong}</p>
+        <p><strong>Unanswered:</strong> ${unanswered}</p>
         <p><strong>Score:</strong> ${percent}%</p>
       `;
     }
