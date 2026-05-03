@@ -9,47 +9,17 @@
 
   <link rel="stylesheet" href="/static/style.css"/>
 
-  <!-- OneSignal -->
-
-  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-
-  <script>
-    window.OneSignalDeferred = window.OneSignalDeferred || [];
-
-    OneSignalDeferred.push(async function(OneSignal) {
-      await OneSignal.init({
-        appId: "10b8a735-f31d-446a-8af0-bbb1fdd2b408"
-      });
-    });
-
-    function enableNotifications() {
-      OneSignalDeferred.push(async function(OneSignal) {
-        try {
-          await OneSignal.Slidedown.promptPush({ force: true });
-          await OneSignal.Notifications.requestPermission();
-          alert("Notifications enabled!");
-        } catch (e) {
-          console.log(e);
-          alert("Error enabling notifications");
-        }
-      });
-    }
-  </script>
-
   <style>
     button {
       background: #1f4ed8;
       color: white;
-      padding: 10px 15px;
-      border: none;
+      padding: 10px;
       border-radius: 8px;
+      border: none;
       cursor: pointer;
-      font-weight: bold;
     }
-
-    button:hover {
-      background: #1e40af;
-    }
+    .correct { background: #d1fae5; }
+    .wrong { background: #fee2e2; }
   </style>
 
 </head>
@@ -61,42 +31,115 @@
 <h1>Irish Payroll Tutor 🇮🇪</h1>
 <p>Seu app de estudo diário</p>
 
-<!-- BOTÃO -->
-<button onclick="enableNotifications()">
-  🔔 Enable Notifications
-</button>
-
 <!-- MORNING -->
 <div class="card">
   <h2>06:30 Morning Tip</h2>
-  {% if morning_tip %}
-    <p>{{ morning_tip }}</p>
-  {% else %}
-    <p>Add Morning Tips inside your chapter .md file.</p>
-  {% endif %}
+  <p>{{ morning_tip }}</p>
 </div>
 
 <!-- QUIZ -->
 <div class="card">
   <h2>13:20 Midday Quiz</h2>
+
   {% if quizzes %}
-    <p>Quiz loaded successfully</p>
-  {% else %}
-    <p>No quiz found in your .md file.</p>
+    <form id="quizForm">
+
+      {% for quiz in quizzes %}
+        {% set i = loop.index0 %}
+
+        <div class="question">
+          <p><strong>{{ loop.index }}. {{ quiz.question }}</strong></p>
+
+          {% for opt in quiz.options %}
+            <label>
+              <input type="radio"
+                     name="q{{ i }}"
+                     value="{{ opt.letter }}"
+                     data-correct="{{ quiz.correct }}">
+              {{ opt.letter }}. {{ opt.text }}
+            </label><br>
+          {% endfor %}
+        </div>
+      {% endfor %}
+
+      <button type="button" onclick="finishQuiz()">Finish Quiz</button>
+
+    </form>
+
+    <div id="result"></div>
+
   {% endif %}
 </div>
 
 <!-- REVIEW -->
 <div class="card">
   <h2>17:30 Evening Review</h2>
-  {% if evening_review %}
-    <p>{{ evening_review }}</p>
-  {% else %}
-    <p>Add Evening Reviews inside your chapter .md file.</p>
-  {% endif %}
+  <div id="reviewBox">
+    <p>Complete the quiz to see your weak points.</p>
+  </div>
 </div>
 ```
 
   </main>
+
+  <script>
+    function finishQuiz() {
+      let correct = 0;
+      let wrongQuestions = [];
+
+      document.querySelectorAll(".question").forEach((q, index) => {
+        let selected = q.querySelector("input:checked");
+        let inputs = q.querySelectorAll("input");
+
+        inputs.forEach(i => {
+          i.parentElement.classList.remove("correct", "wrong");
+
+          if (i.value === i.dataset.correct) {
+            i.parentElement.classList.add("correct");
+          }
+        });
+
+        if (selected) {
+          if (selected.value === selected.dataset.correct) {
+            correct++;
+          } else {
+            selected.parentElement.classList.add("wrong");
+
+            let questionText = q.querySelector("p").innerText;
+            wrongQuestions.push(questionText);
+          }
+        }
+      });
+
+      let total = document.querySelectorAll(".question").length;
+      let score = Math.round((correct / total) * 100);
+
+      document.getElementById("result").innerHTML =
+        `<p><strong>Score:</strong> ${score}%</p>`;
+
+      // 🔥 SALVA ERROS
+      localStorage.setItem("wrongAnswers", JSON.stringify(wrongQuestions));
+
+      updateReview();
+    }
+
+    function updateReview() {
+      let reviewBox = document.getElementById("reviewBox");
+      let wrong = JSON.parse(localStorage.getItem("wrongAnswers")) || [];
+
+      if (wrong.length === 0) {
+        reviewBox.innerHTML = "<p>No mistakes today. Great job 👊</p>";
+      } else {
+        reviewBox.innerHTML = "<h3>Review your weak points:</h3>";
+        wrong.forEach(q => {
+          reviewBox.innerHTML += `<p>• ${q}</p>`;
+        });
+      }
+    }
+
+    // roda ao abrir
+    updateReview();
+  </script>
+
 </body>
 </html>
